@@ -1,0 +1,187 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: theme("colors.paper");
+    /* Faint graph-paper dots. Kept very light so text stays the star. */
+    background-image: radial-gradient(rgba(33, 30, 24, 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+    color: theme("colors.ink");
+    font-family: theme("fontFamily.sans");
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: theme("fontFamily.serif");
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: theme("colors.highlight");
+    color: theme("colors.ink");
+  }
+
+  :focus-visible {
+    outline: 2px solid theme("colors.pine.600");
+    outline-offset: 2px;
+  }
+}
+
+/* Small helpers used across pages. */
+@layer components {
+  .card {
+    @apply rounded-lg border border-line bg-card shadow-paper;
+  }
+
+  .card-quiet {
+    @apply rounded-lg border border-line/70 bg-card/70;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border px-4 py-2.5 text-sm font-semibold transition active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50 disabled:active:translate-y-0;
+  }
+
+  .btn-primary {
+    @apply btn border-pine-700 bg-pine-600 text-paper shadow-button hover:bg-pine-700;
+  }
+
+  .btn-ghost {
+    @apply btn border-line bg-card text-ink-soft hover:bg-paper-deep;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded border border-line bg-paper px-2 py-0.5 font-mono text-[10.5px] font-medium uppercase tracking-wider text-ink-soft;
+  }
+
+  .input {
+    @apply w-full rounded-md border border-line bg-white/80 px-3 py-2.5 text-sm text-ink outline-none placeholder:text-stone-400 focus:border-pine-500 focus:ring-2 focus:ring-pine-100;
+  }
+
+  .label {
+    @apply mb-1.5 flex items-center gap-2 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-ink-soft;
+  }
+
+  /* Highlighter swipe behind a word or two. */
+  .marker {
+    background-image: linear-gradient(
+      transparent 58%,
+      rgba(245, 201, 91, 0.72) 58%,
+      rgba(245, 201, 91, 0.72) 92%,
+      transparent 92%
+    );
+    padding: 0 0.12em;
+  }
+
+  /* A sticky note with a strip of tape. */
+  .paper-note {
+    @apply relative rounded-md border border-line bg-[#fffaeb] p-4 shadow-paper;
+  }
+
+  .paper-note::before {
+    content: "";
+    position: absolute;
+    top: -0.55rem;
+    left: 2rem;
+    width: 4.5rem;
+    height: 1.1rem;
+    transform: rotate(-3deg);
+    background: rgba(245, 201, 91, 0.55);
+    border-left: 1px dashed rgba(33, 30, 24, 0.12);
+    border-right: 1px dashed rgba(33, 30, 24, 0.12);
+  }
+
+  .step-dot {
+    @apply grid h-6 w-6 shrink-0 place-items-center rounded-full border border-pine-200 bg-pine-50 font-mono text-[11px] font-bold text-pine-700;
+  }
+
+  .link-ink {
+    @apply font-medium text-pine-600 underline decoration-line decoration-2 underline-offset-4 hover:text-pine-700 hover:decoration-pine-300;
+  }
+}
+
+/* KaTeX can get wide on phones. */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+
+/* Quiet scrollbar for the chat panel. */
+.chat-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: theme("colors.stone.300") transparent;
+}
+.chat-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.chat-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: theme("colors.stone.300");
+}
+
+/* Chat sheet entrance. */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.16s ease-out;
+}
+
+.sheet-in {
+  animation: sheet-in 0.2s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in,
+  .sheet-in {
+    animation: none;
+  }
+}
+
+/* Print: clean revision sheet, no app chrome. */
+@media print {
+  body {
+    background: white;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-block {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .card {
+    border: 1px solid #ddd;
+    box-shadow: none;
+  }
+  a[href]::after {
+    content: "";
+  }
+}

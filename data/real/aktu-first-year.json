@@ -1,0 +1,537 @@
+{
+  "meta": {
+    "title": "AKTU B.Tech first-year common subjects (verified from the official syllabus PDF)",
+    "scheme": "2022-23",
+    "fetched_at": "2026-11-23",
+    "syllabus_source": "https://aktu.ac.in/pdf/syllabus/syllabus2223/Syllabus_BTech_First_Yr_Common_other_than_AG_%26_BT_effective_from_2022_23_R.pdf",
+    "syllabus_page": "https://aktu.ac.in/syllabus%202022-2023.html",
+    "notes": [
+      "Subject names, codes and unit topics below were typed from the official AKTU first-year syllabus PDF.",
+      "Every row imported by scripts/import-real.mjs is written with verified = 0. Approve it in /admin before trusting it.",
+      "Only the English text of the BCS101 paper was kept. The PDF also prints Hindi, whose font did not extract cleanly."
+    ]
+  },
+  "subjects": [
+    {
+      "code": "BAS101",
+      "name": "Engineering Physics",
+      "semester": 1,
+      "scheme": "2022-23",
+      "isCommon": true,
+      "branches": ["CSE", "IT", "ECE", "ME", "CE", "EEE"],
+      "sourceUrl": "https://aktu.ac.in/pdf/syllabus/syllabus2223/Syllabus_BTech_First_Yr_Common_other_than_AG_%26_BT_effective_from_2022_23_R.pdf",
+      "units": [
+        {
+          "unitNo": 1,
+          "title": "Quantum Mechanics",
+          "contactHours": 9,
+          "topics": [
+            "Inadequacy of classical mechanics",
+            "Planck's theory of black body radiation (qualitative)",
+            "Compton effect",
+            "de-Broglie concept of matter waves",
+            "Davisson and Germer experiment",
+            "Phase velocity and group velocity",
+            "Time-dependent and time-independent Schrodinger wave equations",
+            "Physical interpretation of wave function",
+            "Particle in a one-dimensional box"
+          ]
+        },
+        {
+          "unitNo": 2,
+          "title": "Electromagnetic Field Theory",
+          "contactHours": 8,
+          "topics": [
+            "Basic concept of Stoke's theorem and Divergence theorem",
+            "Basic laws of electricity and magnetism",
+            "Continuity equation for current density",
+            "Displacement current",
+            "Maxwell equations in integral and differential form",
+            "Maxwell equations in vacuum and in conducting medium",
+            "Poynting vector and Poynting theorem",
+            "Plane electromagnetic waves in vacuum and their transverse nature",
+            "Relation between electric and magnetic fields of an electromagnetic wave",
+            "Plane electromagnetic waves in conducting medium",
+            "Skin depth"
+          ]
+        },
+        {
+          "unitNo": 3,
+          "title": "Wave Optics",
+          "contactHours": 10,
+          "topics": [
+            "Coherent sources",
+            "Interference in uniform and wedge shaped thin films",
+            "Necessity of extended sources",
+            "Newton's rings and its applications",
+            "Introduction to diffraction",
+            "Fraunhofer diffraction at single slit and double slit",
+            "Absent spectra",
+            "Diffraction grating",
+            "Spectra with grating",
+            "Dispersive power",
+            "Resolving power",
+            "Rayleigh's criterion of resolution",
+            "Resolving power of grating"
+          ]
+        },
+        {
+          "unitNo": 4,
+          "title": "Fiber Optics and Laser",
+          "contactHours": 9,
+          "topics": [
+            "Principle and construction of optical fiber",
+            "Acceptance angle, numerical aperture and acceptance cone",
+            "Step index and graded index fibers",
+            "Fiber optic communication principle",
+            "Attenuation and dispersion",
+            "Applications of fiber",
+            "Absorption of radiation",
+            "Spontaneous and stimulated emission of radiation",
+            "Population inversion",
+            "Einstein's coefficients",
+            "Principles of laser action",
+            "Solid state laser (Ruby laser) and gas laser (He-Ne laser)",
+            "Laser applications"
+          ]
+        },
+        {
+          "unitNo": 5,
+          "title": "Superconductors and Nano-Materials",
+          "contactHours": 8,
+          "topics": [
+            "Temperature dependence of resistivity in superconducting materials",
+            "Meissner effect",
+            "Temperature dependence of critical field",
+            "Persistent current",
+            "Type I and Type II superconductors",
+            "High temperature superconductors",
+            "Properties and applications of superconductors",
+            "Introduction and properties of nano materials",
+            "Quantum dots, quantum wires and quantum well",
+            "Top-down approach (CVD) and bottom-up approach (Sol Gel)",
+            "Properties and applications of nano materials"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BAS103",
+      "name": "Engineering Mathematics-I",
+      "semester": 1,
+      "scheme": "2022-23",
+      "isCommon": true,
+      "branches": ["CSE", "IT", "ECE", "ME", "CE", "EEE"],
+      "sourceUrl": "https://aktu.ac.in/pdf/syllabus/syllabus2223/Syllabus_BTech_First_Yr_Common_other_than_AG_%26_BT_effective_from_2022_23_R.pdf",
+      "units": [
+        {
+          "unitNo": 1,
+          "title": "Matrices",
+          "contactHours": 8,
+          "topics": [
+            "Elementary transformations",
+            "Inverse of a matrix",
+            "Rank of matrix",
+            "Solution of system of linear equations",
+            "Characteristic equation",
+            "Cayley-Hamilton theorem and its application",
+            "Linear dependence and independence of vectors",
+            "Eigen values and eigen vectors",
+            "Complex matrices",
+            "Hermitian, skew-Hermitian and unitary matrices",
+            "Applications to engineering problems"
+          ]
+        },
+        {
+          "unitNo": 2,
+          "title": "Differential Calculus-I",
+          "contactHours": 8,
+          "topics": [
+            "Successive differentiation (nth order derivatives)",
+            "Leibnitz theorem",
+            "Curve tracing",
+            "Partial derivatives",
+            "Euler's theorem for homogeneous functions",
+            "Total derivative",
+            "Change of variables"
+          ]
+        },
+        {
+          "unitNo": 3,
+          "title": "Differential Calculus-II",
+          "contactHours": 8,
+          "topics": [
+            "Expansion of functions by Taylor's and Maclaurin's theorems for functions of one and two variables",
+            "Maxima and minima of functions of several variables",
+            "Lagrange's method of multipliers",
+            "Jacobians",
+            "Approximation of errors"
+          ]
+        },
+        {
+          "unitNo": 4,
+          "title": "Multiple Integration",
+          "contactHours": 8,
+          "topics": [
+            "Double integral",
+            "Triple integral",
+            "Change of order of integration",
+            "Change of variables",
+            "Beta and Gamma functions and their properties",
+            "Dirichlet's integral and its applications to area and volume",
+            "Liouville's extensions of Dirichlet's integral"
+          ]
+        },
+        {
+          "unitNo": 5,
+          "title": "Vector Calculus",
+          "contactHours": 8,
+          "topics": [
+            "Vector differentiation",
+            "Gradient, curl and divergence and their physical interpretation",
+            "Directional derivatives",
+            "Line integral",
+            "Surface integral",
+            "Volume integral",
+            "Gauss's divergence theorem",
+            "Green's theorem",
+            "Stoke's theorem (without proof) and their applications"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "BCS101",
+      "name": "Programming for Problem Solving",
+      "semester": 1,
+      "scheme": "2022-23",
+      "isCommon": true,
+      "branches": ["CSE", "IT", "ECE", "ME", "CE", "EEE"],
+      "sourceUrl": "https://aktu.ac.in/pdf/syllabus/syllabus2223/Syllabus_BTech_First_Yr_Common_other_than_AG_%26_BT_effective_from_2022_23_R.pdf",
+      "units": [
+        {
+          "unitNo": 1,
+          "title": "Computer System, Algorithms and C Basics",
+          "contactHours": 8,
+          "topics": [
+            "Components of a computer system: memory, processor, I/O devices, storage",
+            "Operating system",
+            "Assembler, compiler, interpreter, loader and linker",
+            "Idea of an algorithm",
+            "Representation of an algorithm, flowchart and pseudo code",
+            "From algorithms to programs and source code",
+            "Structure of a C program",
+            "Writing and executing the first C program",
+            "Syntax and logical errors in compilation",
+            "Object and executable code",
+            "Components of C language",
+            "Standard I/O in C",
+            "Fundamental data types, variables and memory locations",
+            "Storage classes"
+          ]
+        },
+        {
+          "unitNo": 2,
+          "title": "Expressions and Conditional Branching",
+          "contactHours": 8,
+          "topics": [
+            "Arithmetic expressions and precedence",
+            "Operators and expressions using numeric and relational operators",
+            "Mixed operands and type conversion",
+            "Logical operators and bit operations",
+            "Assignment operator",
+            "Operator precedence and associativity",
+            "Conditional branching with if and switch statements",
+            "Nesting if and else and switch"
+          ]
+        },
+        {
+          "unitNo": 3,
+          "title": "Iteration, Loops, Arrays and Structures",
+          "contactHours": 8,
+          "topics": [
+            "Use of while, do while and for loops",
+            "Multiple loop variables",
+            "Use of break, goto and continue statements",
+            "Array notation and representation",
+            "Manipulating array elements",
+            "Multi dimensional arrays",
+            "Character arrays and strings",
+            "Structures, unions and enumerated data types",
+            "Array of structures",
+            "Passing arrays to functions"
+          ]
+        },
+        {
+          "unitNo": 4,
+          "title": "Functions, Searching and Sorting",
+          "contactHours": 8,
+          "topics": [
+            "Introduction to functions and types of functions",
+            "Functions with arrays",
+            "Passing parameters to functions",
+            "Call by value and call by reference",
+            "Recursive functions",
+            "Linear search and binary search",
+            "Bubble sort, insertion sort and selection sort"
+          ]
+        },
+        {
+          "unitNo": 5,
+          "title": "Pointers and File Handling",
+          "contactHours": 8,
+          "topics": [
+            "Introduction to pointers and declaration",
+            "Applications of pointers",
+            "Dynamic memory allocation: malloc, calloc, realloc and free",
+            "String and string functions",
+            "Use of pointers in self-referential structures",
+            "Notion of a linked list (no implementation)",
+            "File I/O functions",
+            "Standard C preprocessors",
+            "Defining and calling macros",
+            "Command-line arguments"
+          ]
+        }
+      ]
+    }
+  ],
+  "papers": [
+    {
+      "subjectCode": "BAS101",
+      "session": "2024-25",
+      "year": 2024,
+      "sourceNote": "BAS101 2024-25 theory paper, discovered via Poori Padhai and downloaded from the linked Google Drive copy. English text only. One question was skipped because its formula did not extract cleanly.",
+      "sourceUrl": "https://drive.google.com/file/d/1QBmxAZflM64x1C-j5Og69NlTWhyfTyEE/view",
+      "discoveredVia": "https://www.pooripadhai.com/previous-year-question-paper/universities/aktu/b.tech/common-subjects/",
+      "questions": [
+        {
+          "unitNo": 1,
+          "marks": 2,
+          "text": "State the assumptions made by Planck to explain the black body radiation curve."
+        },
+        {
+          "unitNo": 1,
+          "marks": 2,
+          "text": "Describe the term wave packet in quantum mechanics."
+        },
+        {
+          "unitNo": 2,
+          "marks": 2,
+          "text": "Explain the term skin depth with necessary formulae."
+        },
+        {
+          "unitNo": 3,
+          "marks": 2,
+          "text": "The centre is dark in Newton's rings experiment. Explain why."
+        },
+        {
+          "unitNo": 4,
+          "marks": 2,
+          "text": "Differentiate between spontaneous emission and stimulated emission."
+        },
+        {
+          "unitNo": 4,
+          "marks": 2,
+          "text": "State the formula to calculate the cut-off parameter and the number of modes in an optical fiber."
+        },
+        {
+          "unitNo": 5,
+          "marks": 2,
+          "text": "Discuss the terms quantum well and quantum wire."
+        },
+        {
+          "unitNo": 1,
+          "marks": 7,
+          "text": "Derive Schrodinger's time-independent wave equation for a free particle and give the physical interpretation of the wave function."
+        },
+        {
+          "unitNo": 2,
+          "marks": 7,
+          "text": "Derive the electromagnetic wave equation in free space. Prove that an electromagnetic wave propagates with the speed of light."
+        },
+        {
+          "unitNo": 3,
+          "marks": 7,
+          "text": "Explain interference in thin films due to reflected light of uniform thickness and obtain the condition for bright and dark rings."
+        },
+        {
+          "unitNo": 5,
+          "marks": 7,
+          "text": "Explain type I and type II superconductors. For a specimen of superconductor, the critical fields are 1.4 x 10^5 and 4.2 x 10^5 A/m at temperatures 14 K and 13 K respectively. Calculate the transition temperature and the fields at 0 K and 4.2 K."
+        },
+        {
+          "unitNo": 1,
+          "marks": 7,
+          "text": "Describe the experiment of Davisson and Germer to demonstrate the wave character of electrons."
+        },
+        {
+          "unitNo": 1,
+          "marks": 7,
+          "text": "A particle is moving in a one-dimensional potential box of infinite height and width 20 angstroms. Calculate the probability of finding the particle within an interval of 10 angstroms at the centre of the box when it is in its state of least energy."
+        },
+        {
+          "unitNo": 2,
+          "marks": 7,
+          "text": "Derive the work-energy theorem for the flow of energy in an electromagnetic field."
+        },
+        {
+          "unitNo": 2,
+          "marks": 7,
+          "text": "Assuming that all the energy from a 1000 W lamp is radiated uniformly, calculate the electric field and magnetic field of the radiation at a distance of 5 m from the lamp."
+        },
+        {
+          "unitNo": 3,
+          "marks": 7,
+          "text": "Discuss the phenomenon of Fraunhofer diffraction at a single slit. Show that the intensity of the first subsidiary maximum is about 4.5% of the principal maximum."
+        },
+        {
+          "unitNo": 3,
+          "marks": 7,
+          "text": "A parallel beam of sodium light of wavelength 5880 angstroms is incident on a thin glass plate of refractive index 1.5 such that the angle of refraction in the plate is 60 degrees. Calculate the smallest thickness of the plate which will make it appear dark by reflection."
+        },
+        {
+          "unitNo": 4,
+          "marks": 7,
+          "text": "Explain the terms acceptance angle, acceptance cone and numerical aperture of an optical fiber with a labelled diagram, and derive an expression for numerical aperture in terms of the relative refractive index difference."
+        },
+        {
+          "unitNo": 4,
+          "marks": 7,
+          "text": "Explain the construction and working of a He-Ne laser with a properly labelled diagram."
+        },
+        {
+          "unitNo": 5,
+          "marks": 7,
+          "text": "Discuss the Meissner effect. Show that perfect diamagnetism and zero resistivity are two independent and essential properties of a superconductor."
+        },
+        {
+          "unitNo": 5,
+          "marks": 7,
+          "text": "Explain the top-down approach for the fabrication of nano-materials. Describe the CVD method for the synthesis of nano-materials with a suitable diagram."
+        }
+      ]
+    },
+    {
+      "subjectCode": "BCS101",
+      "session": "2024-25",
+      "year": 2024,
+      "sourceNote": "BCS101 2024-25 theory paper, discovered via Poori Padhai and downloaded from the linked Google Drive copy. English text only.",
+      "sourceUrl": "https://drive.google.com/file/d/1vIa5EsXnodlahA4pRIwYsAbeLjPvJ_Wn/view",
+      "discoveredVia": "https://www.pooripadhai.com/previous-year-question-paper/universities/aktu/b.tech/common-subjects/",
+      "questions": [
+        {
+          "unitNo": 1,
+          "marks": 2,
+          "text": "Define tokens and explain their use in a programming language."
+        },
+        {
+          "unitNo": 1,
+          "marks": 2,
+          "text": "Differentiate between low-level language and high-level language."
+        },
+        {
+          "unitNo": 2,
+          "marks": 2,
+          "text": "Write the significance of operators in a programming language."
+        },
+        {
+          "unitNo": 2,
+          "marks": 2,
+          "text": "Draw the structure of a nested if-else statement."
+        },
+        {
+          "unitNo": 3,
+          "marks": 2,
+          "text": "Find the output of the following code:\n\n#include <stdio.h>\nint main()\n{\n  int z = 1;\n  while (z <= 5)\n  {\n    if (z == 3)\n    {\n      z++;\n    }\n    printf(\"%d \", z);\n    z++;\n  }\n  return 0;\n}"
+        },
+        {
+          "unitNo": 4,
+          "marks": 2,
+          "text": "Write the time complexity of selection sort."
+        },
+        {
+          "unitNo": 5,
+          "marks": 2,
+          "text": "Define macros and explain their use in C programming."
+        },
+        {
+          "unitNo": 1,
+          "marks": 7,
+          "text": "Define an object file. Discuss the compilation process step by step in C programming."
+        },
+        {
+          "unitNo": 2,
+          "marks": 7,
+          "text": "Write a program to check whether the entered year is a leap year or not using the conditional operator."
+        },
+        {
+          "unitNo": 3,
+          "marks": 7,
+          "text": "Write the importance of an array. Write a program to find the sum of two numbers by passing an array to a function."
+        },
+        {
+          "unitNo": 4,
+          "marks": 7,
+          "text": "Discuss the use of searching and write a program to find a number in an array using linear search."
+        },
+        {
+          "unitNo": 5,
+          "marks": 7,
+          "text": "Explain the use and importance of a linked list in programming."
+        },
+        {
+          "unitNo": 1,
+          "marks": 7,
+          "text": "Draw and discuss the architecture of a digital computer system and its use in programming."
+        },
+        {
+          "unitNo": 1,
+          "marks": 7,
+          "text": "Write the four storage classes used in C programming with examples."
+        },
+        {
+          "unitNo": 2,
+          "marks": 7,
+          "text": "Discuss the various operators used in the C programming language with examples."
+        },
+        {
+          "unitNo": 2,
+          "marks": 7,
+          "text": "Write a C program to find the largest number from four given numbers."
+        },
+        {
+          "unitNo": 3,
+          "marks": 7,
+          "forceClean": true,
+          "text": "Write a program to print the following pattern:\n*\n* *\n* *\n* *\n*************"
+        },
+        {
+          "unitNo": 3,
+          "marks": 7,
+          "text": "Write a program to find the multiplication of two n x n matrices."
+        },
+        {
+          "unitNo": 4,
+          "marks": 7,
+          "text": "Write a program to sort the given list of data using bubble sort and compare its time complexity with insertion sort. The list is 7, 3, 8, 5, 9, 2, 4, 6."
+        },
+        {
+          "unitNo": 4,
+          "marks": 7,
+          "text": "Define call by reference. Write a program to swap two numbers using this concept."
+        },
+        {
+          "unitNo": 5,
+          "marks": 7,
+          "text": "Define dynamic memory allocation (DMA). Write a program to allocate run-time memory and find the sum of all the numbers entered by the user within that memory."
+        },
+        {
+          "unitNo": 5,
+          "marks": 7,
+          "text": "Define a pointer. Discuss the self-referential pointer with an example."
+        }
+      ]
+    }
+  ]
+}

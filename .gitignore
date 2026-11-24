@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# next
+.next/
+out/
+next-env.d.ts
+
+# local database, cached downloads and paper PDFs
+data/*
+!data/REPORT.md
+!data/conflicts.md
+!data/real/
+!data/real/**
+
+# env
+.env
+.env.local
+
+# misc
+*.log
+*.tsbuildinfo
+.DS_Store
+coverage/
