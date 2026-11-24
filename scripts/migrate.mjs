@@ -38,12 +38,24 @@ async function makeDriver() {
     await mkdir(path.dirname(file), { recursive: true });
     const database = new DatabaseSync(file);
     database.exec("PRAGMA journal_mode = WAL");
+    const execute = async (sql) => {
+      const statement = database.prepare(sql);
+      if (statement.columns().length > 0) return { rows: statement.all(), rowsAffected: 0 };
+      const info = statement.run();
+      return { rows: [], rowsAffected: Number(info.changes) };
+    };
     return {
-      execute: async (sql) => {
-        const statement = database.prepare(sql);
-        if (statement.columns().length > 0) return { rows: statement.all(), rowsAffected: 0 };
-        const info = statement.run();
-        return { rows: [], rowsAffected: Number(info.changes) };
+      execute,
+      async transaction(fn) {
+        database.exec("BEGIN IMMEDIATE");
+        try {
+          const result = await fn({ execute });
+          database.exec("COMMIT");
+          return result;
+        } catch (error) {
+          database.exec("ROLLBACK");
+          throw error;
+        }
       },
     };
   }
@@ -53,10 +65,35 @@ async function makeDriver() {
     url,
     authToken: process.env.TURSO_AUTH_TOKEN?.trim() || undefined,
   });
+  const execute = async (sql) => {
+    const result = await client.execute(sql);
+    return { rows: result.rows, rowsAffected: Number(result.rowsAffected ?? 0) };
+  };
   return {
-    execute: async (sql) => {
-      const result = await client.execute(sql);
-      return { rows: result.rows, rowsAffected: Number(result.rowsAffected ?? 0) };
+    execute,
+    // A plain BEGIN/COMMIT does not work over the HTTP protocol because every
+    // request gets its own connection. The client's transaction API keeps one
+    // stream open for the whole migration file.
+    async transaction(fn) {
+      const tx = await client.transaction("write");
+      const txDriver = {
+        execute: async (sql) => {
+          const result = await tx.execute(sql);
+          return { rows: result.rows, rowsAffected: Number(result.rowsAffected ?? 0) };
+        },
+      };
+      try {
+        const result = await fn(txDriver);
+        await tx.commit();
+        return result;
+      } catch (error) {
+        try {
+          await tx.rollback();
+        } catch {
+          // The original error is more useful than a closed-transaction error.
+        }
+        throw error;
+      }
     },
   };
 }
@@ -85,18 +122,12 @@ for (const file of files) {
     .map((statement) => statement.trim())
     .filter(Boolean);
 
-  await db.execute("BEGIN");
-  try {
-    for (const statement of statements) await db.execute(statement);
-    await db.execute(`INSERT INTO _migrations (name) VALUES ('${file.replace(/'/g, "''")}')`);
-    await db.execute("COMMIT");
-    applied += 1;
-    console.log(`✓ ${file}`);
-  } catch (error) {
-    await db.execute("ROLLBACK");
-    console.error(`✗ ${file}:`, error);
-    process.exit(1);
-  }
+  await db.transaction(async (tx) => {
+    for (const statement of statements) await tx.execute(statement);
+    await tx.execute(`INSERT INTO _migrations (name) VALUES ('${file.replace(/'/g, "''")}')`);
+  });
+  applied += 1;
+  console.log(`✓ ${file}`);
 }
 
 console.log(applied === 0 ? "Database is already up to date." : `Applied ${applied} migration(s).`);

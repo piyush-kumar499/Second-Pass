@@ -88,6 +88,25 @@ async function makeDriver() {
 }
 
 const db = await makeDriver();
+
+// The branch list is static metadata, not exam data. Create it here so a fresh
+// production database does not need the sample seed before importing real data.
+const BRANCHES = [
+  ["Computer Science & Engineering", "CSE"],
+  ["Information Technology", "IT"],
+  ["Electronics & Communication Engineering", "ECE"],
+  ["Mechanical Engineering", "ME"],
+  ["Civil Engineering", "CE"],
+  ["Electrical & Electronics Engineering", "EEE"],
+];
+
+for (const [name, shortCode] of BRANCHES) {
+  await db.execute(
+    "INSERT INTO branches (name, short_code) VALUES (?, ?) ON CONFLICT (short_code) DO NOTHING",
+    [name, shortCode],
+  );
+}
+
 const data = JSON.parse(await readFile("data/real/aktu-first-year.json", "utf8"));
 const fetchedAt = new Date().toISOString().slice(0, 19).replace("T", " ");
 

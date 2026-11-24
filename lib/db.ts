@@ -1,3 +1,4 @@
+import { AsyncLocalStorage } from "node:async_hooks";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
@@ -17,7 +18,18 @@ export type DbResult = {
 
 export type DbDriver = {
   execute(sql: string, args?: InValue[]): Promise<DbResult>;
+  /** Opens an explicit transaction. Every query inside its scope must use `driver`. */
+  begin?(): Promise<{
+    driver: DbDriver;
+    commit(): Promise<void>;
+    rollback(): Promise<void>;
+  }>;
 };
+
+// Queries inside transaction(fn) are routed to the transaction's driver instead of
+// the pooled client. This is what makes BEGIN/COMMIT work on Turso: the HTTP client
+// cannot share a transaction state between separate requests.
+const activeDriver = new AsyncLocalStorage<DbDriver>();
 
 function normalise(args: InValue[]): (string | number | bigint | null | Uint8Array)[] {
   return args.map((value) => {
@@ -54,10 +66,36 @@ class LocalDriver implements DbDriver {
       lastInsertRowid: info.lastInsertRowid,
     };
   }
+
+  async begin() {
+    this.database.exec("BEGIN IMMEDIATE");
+    return {
+      driver: this as DbDriver,
+      commit: async () => {
+        this.database.exec("COMMIT");
+      },
+      rollback: async () => {
+        this.database.exec("ROLLBACK");
+      },
+    };
+  }
 }
 
+type RemoteClient = {
+  execute(input: unknown): Promise<unknown>;
+  transaction?(mode: string): Promise<{
+    execute(input: unknown): Promise<unknown>;
+    commit(): Promise<void>;
+    rollback(): Promise<void>;
+  }>;
+};
+
 class RemoteDriver implements DbDriver {
-  constructor(private client: { execute(input: unknown): Promise<unknown> }) {}
+  private client: RemoteClient;
+
+  constructor(client: RemoteClient) {
+    this.client = client;
+  }
 
   async execute(sql: string, args: InValue[] = []): Promise<DbResult> {
     const result = (await this.client.execute({ sql, args })) as {
@@ -69,6 +107,18 @@ class RemoteDriver implements DbDriver {
       rows: result.rows.map((row) => ({ ...row })),
       rowsAffected: Number(result.rowsAffected ?? 0),
       lastInsertRowid: result.lastInsertRowid ?? 0,
+    };
+  }
+
+  async begin() {
+    if (!this.client.transaction) {
+      throw new Error("This database driver does not support transactions.");
+    }
+    const tx = await this.client.transaction("write");
+    return {
+      driver: new RemoteDriver(tx) as DbDriver,
+      commit: () => tx.commit(),
+      rollback: () => tx.rollback(),
     };
   }
 }
@@ -92,7 +142,7 @@ async function createDriver(): Promise<DbDriver> {
     url,
     authToken: process.env.TURSO_AUTH_TOKEN?.trim() || undefined,
   });
-  return new RemoteDriver(client);
+  return new RemoteDriver(client as unknown as RemoteClient);
 }
 
 export function db(): Promise<DbDriver> {
@@ -105,11 +155,15 @@ export function db(): Promise<DbDriver> {
   return globalForDb.__dbReady;
 }
 
+async function driver(): Promise<DbDriver> {
+  return activeDriver.getStore() ?? db();
+}
+
 export async function all<T = Record<string, unknown>>(
   sql: string,
   args: InValue[] = [],
 ): Promise<T[]> {
-  const result = await (await db()).execute(sql, args);
+  const result = await (await driver()).execute(sql, args);
   return result.rows as T[];
 }
 
@@ -122,7 +176,7 @@ export async function one<T = Record<string, unknown>>(
 }
 
 export async function run(sql: string, args: InValue[] = []): Promise<DbResult> {
-  return (await db()).execute(sql, args);
+  return (await driver()).execute(sql, args);
 }
 
 export function nowIso(): string {
@@ -130,14 +184,27 @@ export function nowIso(): string {
 }
 
 export async function transaction<T>(fn: () => Promise<T>): Promise<T> {
-  const client = await db();
-  await client.execute("BEGIN IMMEDIATE");
+  // Nested calls join the transaction that is already open.
+  if (activeDriver.getStore()) {
+    return fn();
+  }
+
+  const current = await db();
+  if (!current.begin) {
+    throw new Error("This database driver does not support transactions.");
+  }
+
+  const tx = await current.begin();
   try {
-    const result = await fn();
-    await client.execute("COMMIT");
+    const result = await activeDriver.run(tx.driver, fn);
+    await tx.commit();
     return result;
   } catch (error) {
-    await client.execute("ROLLBACK");
+    try {
+      await tx.rollback();
+    } catch {
+      // The transaction may already be closed; the original error is the useful one.
+    }
     throw error;
   }
 }
