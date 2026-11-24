@@ -1,7 +1,7 @@
 import { AsyncLocalStorage } from "node:async_hooks";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
-import { DatabaseSync } from "node:sqlite";
+import type { DatabaseSync } from "node:sqlite";
 
 // One tiny database interface with two drivers:
 // - local file  -> node:sqlite (no native packages, works on the phone and on any Node 22+ host)
@@ -42,12 +42,8 @@ function normalise(args: InValue[]): (string | number | bigint | null | Uint8Arr
 class LocalDriver implements DbDriver {
   private database: DatabaseSync;
 
-  constructor(file: string) {
-    mkdirSync(path.dirname(path.resolve(file)), { recursive: true });
-    this.database = new DatabaseSync(file);
-    this.database.exec("PRAGMA journal_mode = WAL");
-    this.database.exec("PRAGMA foreign_keys = ON");
-    this.database.exec("PRAGMA busy_timeout = 5000");
+  constructor(database: DatabaseSync) {
+    this.database = database;
   }
 
   async execute(sql: string, args: InValue[] = []): Promise<DbResult> {
@@ -133,7 +129,16 @@ async function createDriver(): Promise<DbDriver> {
   const url = databaseUrl();
 
   if (url.startsWith("file:")) {
-    return new LocalDriver(url.slice("file:".length));
+    const file = url.slice("file:".length);
+    mkdirSync(path.dirname(path.resolve(file)), { recursive: true });
+    // Loaded only for a local file. Vercel selects Turso and never evaluates
+    // node:sqlite, so older Node runtimes stay usable in production.
+    const { DatabaseSync } = await import("node:sqlite");
+    const database = new DatabaseSync(file);
+    database.exec("PRAGMA journal_mode = WAL");
+    database.exec("PRAGMA foreign_keys = ON");
+    database.exec("PRAGMA busy_timeout = 5000");
+    return new LocalDriver(database);
   }
 
   // Remote Turso. The web build is pure JavaScript, so it never needs a native binary.
