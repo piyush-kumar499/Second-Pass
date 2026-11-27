@@ -82,9 +82,9 @@ Copy `.env.example` to `.env` and fill in what you have. It is a complete templa
 | `AUTH_SECRET` | Session signing secret. Generate with `openssl rand -base64 32`. |
 | `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Google OAuth client. Leave empty to use dev email login. |
 | `ALLOW_DEV_LOGIN` | `true` enables email login **only while Google is not configured**. Set `false` in production. |
-| `GROQ_API1` … `GROQ_API4` | Up to four Groq keys. They rotate per task and cool down after a 429. |
+| `GROQ_API1` … `GROQ_API4` | Up to four Groq keys. One key is enough for every task; extras rotate and cool down after a 429. |
 | `GOOGLE_API1` | Gemini key, used as the fallback provider. |
-| `MODEL_GENERATE` / `MODEL_CHAT` / `MODEL_INGEST` / `MODEL_FALLBACK` | Optional model overrides; defaults are in `lib/ai/config.ts`. |
+| `MODEL_GENERATE` / `MODEL_CHAT` / `MODEL_INGEST` / `MODEL_FALLBACK` | Optional model overrides. Defaults: `openai/gpt-oss-120b`, `openai/gpt-oss-20b`, `openai/gpt-oss-120b`, `gemini-3.8-flash`. |
 | `ADMIN_EMAILS` | Comma-separated emails that can open `/admin`. |
 | `CURRENT_VERSION` | `YYYY-MM`. Part of the cache key; bump it to make every page regenerate. |
 | `DAILY_GEN_LIMIT_PER_USER` | Generations per user per day. Default `3`. |
@@ -136,7 +136,11 @@ Auth.js uses JWT sessions. The chat is a popup, not an inline form. `components/
 ## AI keys
 
 - Groq is the primary provider. Add one or more of `GROQ_API1` … `GROQ_API4`.
-- Gemini is the fallback. Add `GOOGLE_API1` if you have one.
+- The Groq free plan currently provides `openai/gpt-oss-120b`, `openai/gpt-oss-20b` and `qwen/qwen3.8-27b`. This app uses the first two:
+  - `openai/gpt-oss-120b` — page generation and paper ingest, best quality.
+  - `openai/gpt-oss-20b` — chat, fastest.
+- Gemini is the fallback. Add `GOOGLE_API1` if you have one. `gemini-3.8-flash` is free on the Gemini API and is the default fallback. Other free choices are `gemini-4-hydrogen`, `gemini-3.6-flash` and `gemini-3.5-flash-lite`.
+- A single Groq key works for generation, chat and ingest. Preferred keys are tried first, then the remaining keys, so gaps in `GROQ_API2`–`GROQ_API4` never disable a task.
 - Keys are tried in a rotating order. A key that returns 429/5xx is cooled down and skipped. A bad JSON answer gets one correction attempt on the same key, then the next key is tried.
 - Every AI call is logged to `ai_calls` with task, model, key label, tokens, latency, success and error. The global daily cap counts these rows.
 - With no keys, generation returns a sample/syllabus-only page and chat returns a short "AI is not configured" reply. No exam questions are invented.
